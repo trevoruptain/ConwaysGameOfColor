@@ -1,20 +1,20 @@
 class Board {
-  construtor(width, height, positions) {
+  construtor(params) {
+    const width = params.width;
+    const height = params.height;
+
     this.grid = new Array(height);
 
     this.grid.forEach(row => {
       row = new Array(width);
     });
 
-    this.width = width;
-    this.height = height;
-
     this.populateBoard = this.populateBoard.bind(this);
     this.nextGeneration = this.nextGeneration.bind(this);
     this.countLiveNeighbors = this.countLiveNeighbors.bind(this);
     this.existsOnBoard = this.existsOnBoard.bind(this);
 
-    this.populateBoard(positions);
+    this.populateBoard(params.positions);
   }
 
   populateBoard(positions) {
