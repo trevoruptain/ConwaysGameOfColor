@@ -65,106 +65,219 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const GameView = __webpack_require__(1);
-const ConwayGame = __webpack_require__(2);
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__view__ = __webpack_require__(1);
+
 
 $( () => {
   const rootEl = $('.conway');
-  const game = new ConwayGame;
-  new GameView(game, rootEl);
+  new __WEBPACK_IMPORTED_MODULE_0__view__["a" /* default */](rootEl);
 });
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-//See Towers of Hanoi
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__board__ = __webpack_require__(3);
+
+
 
 class GameView {
-  constructor(game, $el) {
-    this.game = game;
+  constructor($el) {
     this.$el = $el;
+
+    this.positions = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].madness;
+
+    this.board = new __WEBPACK_IMPORTED_MODULE_1__board__["a" /* default */](this.positions);
+
+    this.setupBoard = this.setupBoard.bind(this);
+    this.runGame = this.runGame.bind(this);
+
+    this.setupBoard();
 
     this.$el.on(
       "click",
-      this.startGame()
-    ).bind(this);
+      this.runGame()
+    );
   }
 
-  startGame() {
+  setupBoard() {
+    let html = '';
 
+    for (let i = 0; i < this.board.height; i++) {
+      html += '<ul>';
+      for (let j = 0; j < this.board.width; j++) {
+        let isAlive = false;
+        for (let k = 0; k < this.positions.length; k++) {
+          if (this.positions[k][0] === i && this.positions[k][1] === j) {
+            isAlive = true;
+          }
+        }
+        if (isAlive) {
+          html += '<li class="live"></li>';
+        } else {
+          html += '<li></li>';
+        }
+      }
+      html += '</ul>';
+    }
+
+    this.$el.html(html);
+    this.$li = this.$el.find("li");
+  }
+
+  runGame() {
+    setInterval(() => {
+      debugger;
+      const livePositions = this.board.nextGeneration();
+      this.$li.filter(".live").removeClass();
+
+      livePositions.forEach(position => {
+        const flatCoord = (position[0] * this.board.width) + position[1];
+        this.$li.eq(flatCoord).addClass(".live");
+      });
+    }, 500);
   }
 }
+
+/* harmony default export */ __webpack_exports__["a"] = (GameView);
 
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const Board = __webpack_require__(3);
-const Params = __webpack_require__(4);
+"use strict";
+const Util = {
+  glider: [
+    [1, 0],
+    [0, 1],
+    [-1, -1],
+    [-1, 0],
+    [-1, 1]
+  ],
 
-class Game {
-  constructor() {
-    const params = new Params;
-    const board = new Board(params);
-    this.runGame(board).bind(this);
-  }
+  smallExploder: [
+    [1, 0],
+    [0, 0],
+    [0, -1],
+    [0, 1],
+    [-1, -1],
+    [-1, 1],
+    [-2, 0]
+  ],
 
-  runGame(board) {
-    //Renders the board and sets an event listener
-    //Flashes the squares or click me button
-    //Make sure to stop here until click
+  exploder: [
+    [2, 0],
+    [2, -2],
+    [2, 2],
+    [1, -2],
+    [1, 2],
+    [0, -2],
+    [0, 2],
+    [-1, -2],
+    [-1, 2],
+    [-2, -2],
+    [-2, 2],
+    [-2, 0]
+  ],
 
+  tenCellRow: [
+    [0, -4],
+    [0, -3],
+    [0, -2],
+    [0, -1],
+    [0, 0],
+    [0, 1],
+    [0, 2],
+    [0, 3],
+    [0, 4],
+    [0, 5],
+  ],
 
-    while(!board.isEmpty()) {
-      this.render(board);
-      board.nextGeneration();
-      setTimeout(80);
-    }
-  }
+  spaceship: [
+    [1, -2],
+    [2, -1],
+    [2, 0],
+    [2, 1],
+    [2, 2],
+    [1, 2],
+    [0, 2],
+    [-1, 1],
+    [-1, -2]
+  ],
 
-  render(board) {
-    //Uses board state to render board changes to canvas
-    //This is tough because you don't want to re-render the whole
-    //board, only the changes to the board
-  }
+  tumbler: [
+    [2, -2],
+    [2, 1],
+    [1, -2],
+    [1, -1],
+    [0, -1],
+    [-1, -1],
+    [-2, -1],
+    [-3, -2],
+    [-3, -3],
+    [-2, -3],
+    [-1, -3],
+    [2, 1],
+    [2, 2],
+    [1, 1],
+    [1, 2],
+    [0, 1],
+    [-1, 1],
+    [-2, 1],
+    [-3, 2],
+    [-3, 3],
+    [-2, 3],
+    [-1, 3]
+  ],
 
+  madness: [
+    [25, 40],
+    [25, 41],
+    [23, 41],
+    [24, 43],
+    [25, 44],
+    [25, 45],
+    [25, 46]
+  ]
+};
 
-}
-
-//If they touch the edge of the board, they die. But you render everything
-//except for the fifth - -fifth square on each side. You just have to Make
-//sure to create a board of input width + 10, height + 10
+/* harmony default export */ __webpack_exports__["a"] = (Util);
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 class Board {
-  construtor(params) {
-    const width = params.width;
-    const height = params.height;
+  constructor(positions) {
+    this.width = 80;
+    this.height = 50;
 
-    this.grid = new Array(height);
+    this.grid = new Array(this.height);
 
-    this.grid.forEach(row => {
-      row = new Array(width);
-    });
+    for (let i = 0; i < this.height; i++) {
+      this.grid[i] = new Array(this.width);
+    }
 
     this.populateBoard = this.populateBoard.bind(this);
     this.nextGeneration = this.nextGeneration.bind(this);
     this.countLiveNeighbors = this.countLiveNeighbors.bind(this);
     this.existsOnBoard = this.existsOnBoard.bind(this);
 
-    this.populateBoard(params.positions);
+    this.populateBoard(positions);
   }
 
   populateBoard(positions) {
+    //Set all positions to false initially
     positions.forEach(position => {
       const x = position[0];
       const y = position[1];
@@ -175,10 +288,11 @@ class Board {
 
   nextGeneration() {
     const newGrid = new Array(this.height);
+    const livePositions = [];
 
-    newGrid.forEach(row => {
-      row = new Array(this.width);
-    });
+    for (let i = 0; i < this.height; i++) {
+      newGrid[i] = new Array(this.width);
+    }
 
     this.grid.forEach((row, i) => {
       row.forEach((el, j) => {
@@ -189,10 +303,12 @@ class Board {
             newGrid[i][j] = false;
           } else {
             newGrid[i][j] = true;
+            livePositions.push([i, j]);
           }
         } else if (this.grid[i][j] === false) {
           if (neighborCount === 3) {
             newGrid[i][j] = true;
+            livePositions.push([i, j]);
           } else {
             newGrid[i][j] = false;
           }
@@ -201,6 +317,7 @@ class Board {
     });
 
     this.grid = newGrid;
+    return livePositions;
   }
 
   countLiveNeighbors(pos) {
@@ -248,33 +365,9 @@ class Board {
   }
 }
 
-module.exports = Board;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const WriteJS = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"write.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
-class Params {
-  constructor() {
-    //Receive an Ajax request through a form and return
-    //width, height, and text inputs from a form
-
-    //Later you can choose a background image
-
-    //Retrieve the CSS File
-
-    //Create a new instance of write JS with the parameters
-    //Return the game parameters to game.js
-
-    //Post the JavaScript and CSS files to the screen with Ajax
-  }
-}
-
-//Add param for speed
+/* harmony default export */ __webpack_exports__["a"] = (Board);
 
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=bundle.js.map

@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+figure {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+li {
+  float: left;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  list-style: none;
+}
+
+.live {
+  background-color: #000 !important;
+}
