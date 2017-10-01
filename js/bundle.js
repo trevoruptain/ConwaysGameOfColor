@@ -134,15 +134,14 @@ class GameView {
 
   runGame() {
     setInterval(() => {
-      debugger;
       const livePositions = this.board.nextGeneration();
       this.$li.filter(".live").removeClass();
 
       livePositions.forEach(position => {
         const flatCoord = (position[0] * this.board.width) + position[1];
-        this.$li.eq(flatCoord).addClass(".live");
+        this.$li.eq(flatCoord).addClass("live");
       });
-    }, 500);
+    }, 50);
   }
 }
 
@@ -156,11 +155,11 @@ class GameView {
 "use strict";
 const Util = {
   glider: [
-    [1, 0],
-    [0, 1],
-    [-1, -1],
-    [-1, 0],
-    [-1, 1]
+    [4, 3],
+    [3, 4],
+    [2, 2],
+    [2, 3],
+    [2, 4]
   ],
 
   smallExploder: [
@@ -239,13 +238,13 @@ const Util = {
   ],
 
   madness: [
-    [25, 40],
-    [25, 41],
-    [23, 41],
-    [24, 43],
-    [25, 44],
-    [25, 45],
-    [25, 46]
+    [25, 137],
+    [25, 138],
+    [23, 138],
+    [24, 140],
+    [25, 141],
+    [25, 142],
+    [25, 143]
   ]
 };
 
@@ -259,45 +258,43 @@ const Util = {
 "use strict";
 class Board {
   constructor(positions) {
-    this.width = 80;
-    this.height = 50;
+    this.width = 200;
+    this.height = 80;
 
     this.grid = new Array(this.height);
 
     for (let i = 0; i < this.height; i++) {
       this.grid[i] = new Array(this.width);
+      this.grid[i].fill(false);
     }
 
     this.populateBoard = this.populateBoard.bind(this);
     this.nextGeneration = this.nextGeneration.bind(this);
     this.countLiveNeighbors = this.countLiveNeighbors.bind(this);
-    this.existsOnBoard = this.existsOnBoard.bind(this);
 
     this.populateBoard(positions);
   }
 
   populateBoard(positions) {
-    //Set all positions to false initially
     positions.forEach(position => {
-      const x = position[0];
-      const y = position[1];
+      const y = position[0];
+      const x = position[1];
 
-      this.grid[x][y] = true;
+      this.grid[y][x] = true;
     });
   }
 
   nextGeneration() {
     const newGrid = new Array(this.height);
-    const livePositions = [];
-
     for (let i = 0; i < this.height; i++) {
       newGrid[i] = new Array(this.width);
     }
 
+    const livePositions = [];
+
     this.grid.forEach((row, i) => {
       row.forEach((el, j) => {
         const neighborCount = this.countLiveNeighbors([i, j]);
-
         if (this.grid[i][j] === true) {
           if (neighborCount < 2 || neighborCount > 3) {
             newGrid[i][j] = false;
@@ -332,36 +329,31 @@ class Board {
     [-1, 0]
   ];
 
-  const x = pos[0];
-  const y = pos[1];
+  const y = pos[0];
+  const x = pos[1];
   let count = 0;
 
   directions.forEach(direction => {
     const a = direction[0];
     const b = direction[1];
-    const newH = x + a;
-    const newV = y + b;
+    let newH = (x + a) % this.width;
+    let newV = (y + b) % this.height;
 
-    if (this.existsOnBoard([newH, newV])) {
-      if (this.grid[newH][newV] === true) {
-        count++;
-      }
+    if (newH < 0) {
+      newH = this.width + newH;
+    }
+
+    if (newV < 0) {
+      newV = this.height + newV;
+    }
+
+    if (this.grid[newV][newH] === true) {
+      count++;
     }
 
   });
 
   return count;
-  }
-
-  existsOnBoard(pos) {
-    const x = pos[0];
-    const y = pos[1];
-
-    if (x < 0 || y < 0 || x > this.width - 1 || y > this.height - 1) {
-      return false;
-    }
-
-    return true;
   }
 }
 

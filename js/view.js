@@ -47,15 +47,14 @@ class GameView {
 
   runGame() {
     setInterval(() => {
-      debugger;
       const livePositions = this.board.nextGeneration();
       this.$li.filter(".live").removeClass();
 
       livePositions.forEach(position => {
         const flatCoord = (position[0] * this.board.width) + position[1];
-        this.$li.eq(flatCoord).addClass(".live");
+        this.$li.eq(flatCoord).addClass("live");
       });
-    }, 500);
+    }, 50);
   }
 }
 

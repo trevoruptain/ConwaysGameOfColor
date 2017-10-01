@@ -4,8 +4,18 @@ body {
   text-align: center;
 }
 
-figure {
+.conway {
+  width: 100vw;
   margin: 0;
+  background-color: #cecece;
+  background:
+    linear-gradient(
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.75)
+      ),
+     url("https://cdn.pixabay.com/photo/2017/06/26/08/43/ribblehead-viaduct-2443085_960_720.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 ul {
@@ -21,12 +31,11 @@ ul:after {
 
 li {
   float: left;
-  width: 10px;
-  height: 10px;
-  background-color: red;
+  width: 0.5vw;
+  height: 0.5vw;
   list-style: none;
 }
 
 .live {
-  background-color: #000 !important;
+  background-color: #FFF !important;
 }
