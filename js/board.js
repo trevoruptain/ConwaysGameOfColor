@@ -106,16 +106,8 @@ class Board {
   }
 
   chooseColor(colors) {
-    const rand = Math.floor(Math.random() * 1000);
-
-    if (rand === 1) {
-      const options = ["red", "yellow", "green", "orange", "purple", "pink"];
-      const num = Math.floor(Math.random() * 6);
-      return options[num];
-    } else {
-      const num = Math.floor(Math.random() * colors.length);
-      return colors[num];
-    }
+    const num = Math.floor(Math.random() * colors.length);
+    return colors[num];
   }
 }
 
