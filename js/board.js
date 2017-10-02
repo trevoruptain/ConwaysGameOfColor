@@ -106,6 +106,8 @@ class Board {
   }
 
   chooseColor(colors) {
+    const rand = Math.floor(Math.random() * 500);
+
     const num = Math.floor(Math.random() * colors.length);
     return colors[num];
   }

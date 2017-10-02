@@ -91,9 +91,7 @@ $( () => {
 class GameView {
   constructor($el) {
     this.$el = $el;
-
     this.positions = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].madness;
-
     this.board = new __WEBPACK_IMPORTED_MODULE_1__board__["a" /* default */](this.positions);
 
     this.setupBoard = this.setupBoard.bind(this);
@@ -149,14 +147,28 @@ class GameView {
   runGame() {
     this.$el.removeClass("clickable");
     this.$li.filter(".radiate").removeClass();
-    setInterval(() => {
-      const livePositions = this.board.nextGeneration();
-      this.$li.filter(".live").removeClass();
+    let isPaused = false;
 
-      livePositions.forEach(position => {
-        const flatCoord = (position[0][0] * this.board.width) + position[0][1];
-        this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
-      });
+    $('.pause').on('click', function(e) {
+      e.preventDefault();
+      isPaused = true;
+    });
+
+    $('.play').on('click', function(e) {
+      e.preventDefault();
+      isPaused = false;
+    });
+
+    setInterval(() => {
+      if (!isPaused) {
+        const livePositions = this.board.nextGeneration();
+        this.$li.filter(".live").removeClass();
+
+        livePositions.forEach(position => {
+          const flatCoord = (position[0][0] * this.board.width) + position[0][1];
+          this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
+        });
+     }
     }, 50);
   }
 }
@@ -396,6 +408,8 @@ class Board {
   }
 
   chooseColor(colors) {
+    const rand = Math.floor(Math.random() * 500);
+
     const num = Math.floor(Math.random() * colors.length);
     return colors[num];
   }
