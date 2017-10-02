@@ -10,12 +10,12 @@ body {
   background-color: #cecece;
   background:
     linear-gradient(
-        rgba(0, 0, 0, 0.75),
-        rgba(0, 0, 0, 0.75)
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0.25)
       ),
-     url("https://cdn.pixabay.com/photo/2017/06/26/08/43/ribblehead-viaduct-2443085_960_720.jpg");
+     url("./background_1.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
 }
 
 ul {
@@ -37,5 +37,53 @@ li {
 }
 
 .live {
-  background-color: #FFF !important;
+  background-color: #FFF;
+  border-radius: 5px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.radiate {
+  -webkit-animation-name: pulse;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes pulse {
+  from { -webkit-box-shadow: 0 0 0 #FFF; }
+  50% { -webkit-box-shadow: 0 0 18px #FFF; }
+  to { -webkit-box-shadow: 0 0 0 #FFF; }
+}
+
+
+/*Colors*/
+
+.red {
+  background-color: #E94F37 !important;
+}
+
+.green {
+  background-color: #659157 !important;
+}
+
+.blue {
+  background-color: #05204A !important;
+}
+
+.yellow {
+  background-color: #F7F052 !important;
+}
+
+.orange {
+  background-color: #FF570A !important;
+}
+
+.purple {
+  background-color: #46237A !important;
+}
+
+.pink {
+  background-color: #E9AFA3 !important;
 }

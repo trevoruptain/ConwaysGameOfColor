@@ -11,13 +11,14 @@ class GameView {
 
     this.setupBoard = this.setupBoard.bind(this);
     this.runGame = this.runGame.bind(this);
+    this.getColor = this.getColor.bind(this);
 
     this.setupBoard();
 
-    this.$el.on(
-      "click",
-      this.runGame()
-    );
+    this.$el.on("click", e => {
+      e.preventDefault();
+      this.runGame();
+    });
   }
 
   setupBoard() {
@@ -33,7 +34,8 @@ class GameView {
           }
         }
         if (isAlive) {
-          html += '<li class="live"></li>';
+          const color = this.getColor(i, j);
+          html += `<li class="live radiate ${color}"></li>`;
         } else {
           html += '<li></li>';
         }
@@ -45,14 +47,28 @@ class GameView {
     this.$li = this.$el.find("li");
   }
 
+  getColor(x, y) {
+    let color = "";
+
+    this.positions.forEach(position => {
+      if (position[0] == x && position[1] == y) {
+        color = position[2];
+      }
+    });
+
+    return color;
+  }
+
   runGame() {
+    this.$el.removeClass("clickable");
+    this.$li.filter(".radiate").removeClass();
     setInterval(() => {
       const livePositions = this.board.nextGeneration();
       this.$li.filter(".live").removeClass();
 
       livePositions.forEach(position => {
-        const flatCoord = (position[0] * this.board.width) + position[1];
-        this.$li.eq(flatCoord).addClass("live");
+        const flatCoord = (position[0][0] * this.board.width) + position[0][1];
+        this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
       });
     }, 50);
   }

@@ -98,13 +98,14 @@ class GameView {
 
     this.setupBoard = this.setupBoard.bind(this);
     this.runGame = this.runGame.bind(this);
+    this.getColor = this.getColor.bind(this);
 
     this.setupBoard();
 
-    this.$el.on(
-      "click",
-      this.runGame()
-    );
+    this.$el.on("click", e => {
+      e.preventDefault();
+      this.runGame();
+    });
   }
 
   setupBoard() {
@@ -120,7 +121,8 @@ class GameView {
           }
         }
         if (isAlive) {
-          html += '<li class="live"></li>';
+          const color = this.getColor(i, j);
+          html += `<li class="live radiate ${color}"></li>`;
         } else {
           html += '<li></li>';
         }
@@ -132,14 +134,28 @@ class GameView {
     this.$li = this.$el.find("li");
   }
 
+  getColor(x, y) {
+    let color = "";
+
+    this.positions.forEach(position => {
+      if (position[0] == x && position[1] == y) {
+        color = position[2];
+      }
+    });
+
+    return color;
+  }
+
   runGame() {
+    this.$el.removeClass("clickable");
+    this.$li.filter(".radiate").removeClass();
     setInterval(() => {
       const livePositions = this.board.nextGeneration();
       this.$li.filter(".live").removeClass();
 
       livePositions.forEach(position => {
-        const flatCoord = (position[0] * this.board.width) + position[1];
-        this.$li.eq(flatCoord).addClass("live");
+        const flatCoord = (position[0][0] * this.board.width) + position[0][1];
+        this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
       });
     }, 50);
   }
@@ -155,11 +171,11 @@ class GameView {
 "use strict";
 const Util = {
   glider: [
-    [4, 3],
-    [3, 4],
-    [2, 2],
-    [2, 3],
-    [2, 4]
+    [4, 3, 'green'],
+    [3, 4, 'yellow'],
+    [2, 2, 'purple'],
+    [2, 3, 'orange'],
+    [2, 4, 'pink']
   ],
 
   smallExploder: [
@@ -238,13 +254,29 @@ const Util = {
   ],
 
   madness: [
-    [25, 137],
-    [25, 138],
-    [23, 138],
-    [24, 140],
-    [25, 141],
-    [25, 142],
-    [25, 143]
+    [25, 137, 'red'],
+    [25, 138, 'green'],
+    [23, 138, 'blue'],
+    [24, 140, 'yellow'],
+    [25, 141, 'orange'],
+    [25, 142, 'purple'],
+    [25, 143, 'pink'],
+
+    [55, 37, 'pink'],
+    [55, 38, 'yellow'],
+    [53, 38, 'green'],
+    [54, 40, 'pink'],
+    [55, 41, 'blue'],
+    [55, 42, 'orange'],
+    [55, 43, 'purple'],
+
+    [65, 107, 'pink'],
+    [65, 108, 'yellow'],
+    [63, 108, 'purple'],
+    [64, 110, 'blue'],
+    [65, 111, 'orange'],
+    [65, 112, 'green'],
+    [65, 113, 'red']
   ]
 };
 
@@ -265,12 +297,12 @@ class Board {
 
     for (let i = 0; i < this.height; i++) {
       this.grid[i] = new Array(this.width);
-      this.grid[i].fill(false);
+      this.grid[i].fill([false]);
     }
 
     this.populateBoard = this.populateBoard.bind(this);
     this.nextGeneration = this.nextGeneration.bind(this);
-    this.countLiveNeighbors = this.countLiveNeighbors.bind(this);
+    this.greetNeighbors = this.greetNeighbors.bind(this);
 
     this.populateBoard(positions);
   }
@@ -280,7 +312,7 @@ class Board {
       const y = position[0];
       const x = position[1];
 
-      this.grid[y][x] = true;
+      this.grid[y][x] = [true, position[2]];
     });
   }
 
@@ -294,20 +326,23 @@ class Board {
 
     this.grid.forEach((row, i) => {
       row.forEach((el, j) => {
-        const neighborCount = this.countLiveNeighbors([i, j]);
-        if (this.grid[i][j] === true) {
+        const neighborInfo = this.greetNeighbors([i, j]);
+        const neighborCount = neighborInfo[0];
+        const newColor = neighborInfo[1];
+
+        if (this.grid[i][j][0] === true) {
           if (neighborCount < 2 || neighborCount > 3) {
-            newGrid[i][j] = false;
+            newGrid[i][j] = [false];
           } else {
-            newGrid[i][j] = true;
-            livePositions.push([i, j]);
+            newGrid[i][j] = [true, newColor];
+            livePositions.push([[i, j], newColor]);
           }
-        } else if (this.grid[i][j] === false) {
+        } else if (this.grid[i][j][0] === false) {
           if (neighborCount === 3) {
-            newGrid[i][j] = true;
-            livePositions.push([i, j]);
+            newGrid[i][j] = [true, newColor];
+            livePositions.push([[i, j], newColor]);
           } else {
-            newGrid[i][j] = false;
+            newGrid[i][j] = [false];
           }
         }
       });
@@ -317,43 +352,60 @@ class Board {
     return livePositions;
   }
 
-  countLiveNeighbors(pos) {
+  greetNeighbors(pos) {
     const directions = [
-    [-1, 1],
-    [0, 1],
-    [1, 1],
-    [1, 0],
-    [1, -1],
-    [0, -1],
-    [-1, -1],
-    [-1, 0]
-  ];
+      [-1, 1],
+      [0, 1],
+      [1, 1],
+      [1, 0],
+      [1, -1],
+      [0, -1],
+      [-1, -1],
+      [-1, 0]
+    ];
 
-  const y = pos[0];
-  const x = pos[1];
-  let count = 0;
+    const y = pos[0];
+    const x = pos[1];
+    let count = 0;
+    let colors = [];
 
-  directions.forEach(direction => {
-    const a = direction[0];
-    const b = direction[1];
-    let newH = (x + a) % this.width;
-    let newV = (y + b) % this.height;
+    directions.forEach(direction => {
+      const a = direction[0];
+      const b = direction[1];
+      let newH = (x + a) % this.width;
+      let newV = (y + b) % this.height;
 
-    if (newH < 0) {
-      newH = this.width + newH;
+      if (newH < 0) {
+        newH = this.width + newH;
+      }
+
+      if (newV < 0) {
+        newV = this.height + newV;
+      }
+
+      if (this.grid[newV][newH][0] === true) {
+        const color = this.grid[newV][newH][1];
+        colors.push(color);
+        count++;
+      }
+    });
+
+    const newColor = this.chooseColor(colors);
+
+    return [count, newColor];
+  }
+
+  chooseColor(colors) {
+    const rand = Math.floor(Math.random() * 1000);
+
+    if (rand === 1) {
+      const options = ["red", "yellow", "green", "orange", "purple", "pink"];
+      const num = Math.floor(Math.random() * 6);
+      return options[num];
+    } else {
+      const num = Math.floor(Math.random() * colors.length);
+      return colors[num];
     }
-
-    if (newV < 0) {
-      newV = this.height + newV;
-    }
-
-    if (this.grid[newV][newH] === true) {
-      count++;
-    }
-
-  });
-
-  return count;
   }
 }
 
