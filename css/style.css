@@ -13,7 +13,7 @@ body {
         rgba(0, 0, 0, 0.25),
         rgba(0, 0, 0, 0.25)
       ),
-     url("./background_1.jpg");
+     url("../images/background_1.jpg");
   background-size: cover;
   background-position: bottom;
 }
@@ -37,7 +37,6 @@ li {
 }
 
 .live {
-  background-color: #FFF;
   border-radius: 5px;
 }
 
@@ -57,33 +56,64 @@ li {
   to { -webkit-box-shadow: 0 0 0 #FFF; }
 }
 
+.play, .pause {
+  background: transparent;
+  position: absolute;
+  top: 37vw;
+  left: 1.5vw;
+  border: none;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.pause {
+  left: 4vw;;
+}
+
+.visible {
+  opacity: 0.5;
+  z-index: 1;
+  transition: all 1s;
+}
+
+button img {
+  width: 16px;
+  height: 16px;
+}
+
+.add-objects:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
 
 /*Colors*/
 
 .red {
-  background-color: #E94F37 !important;
+  background-color: #E94F37;
 }
 
 .green {
-  background-color: #659157 !important;
+  background-color: #32E875;
 }
 
 .blue {
-  background-color: #05204A !important;
+  background-color: #85C7F2;
 }
 
 .yellow {
-  background-color: #F7F052 !important;
+  background-color: #F7F052;
 }
 
 .orange {
-  background-color: #FF570A !important;
+  background-color: #FF570A;
 }
 
 .purple {
-  background-color: #46237A !important;
+  background-color: #D846DD;
 }
 
 .pink {
-  background-color: #E9AFA3 !important;
+  background-color: #EDAFB8;
 }

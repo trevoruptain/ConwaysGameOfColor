@@ -11,7 +11,10 @@ class GameView {
     this.runGame = this.runGame.bind(this);
     this.getColor = this.getColor.bind(this);
 
+    this.isPaused = false;
+
     this.setupBoard();
+    this.addEventListeners();
 
     this.$el.on("click", e => {
       e.preventDefault();
@@ -33,9 +36,9 @@ class GameView {
         }
         if (isAlive) {
           const color = this.getColor(i, j);
-          html += `<li class="live radiate ${color}"></li>`;
+          html += `<li class="live radiate ${color}" data-pos="${[i, j]}"></li>`;
         } else {
-          html += '<li></li>';
+          html += `<li data-pos="${[i, j]}"></li>`;
         }
       }
       html += '</ul>';
@@ -60,20 +63,10 @@ class GameView {
   runGame() {
     this.$el.removeClass("clickable");
     this.$li.filter(".radiate").removeClass();
-    let isPaused = false;
-
-    $('.pause').on('click', function(e) {
-      e.preventDefault();
-      isPaused = true;
-    });
-
-    $('.play').on('click', function(e) {
-      e.preventDefault();
-      isPaused = false;
-    });
+    $('button').addClass("visible");
 
     setInterval(() => {
-      if (!isPaused) {
+      if (!this.isPaused) {
         const livePositions = this.board.nextGeneration();
         this.$li.filter(".live").removeClass();
 
@@ -82,7 +75,72 @@ class GameView {
           this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
         });
      }
-    }, 50);
+   }, 50);
+  }
+
+  addEventListeners() {
+    $('.pause').on('click', e => {
+      e.preventDefault();
+      this.isPaused = true;
+    });
+
+    $('.play').on('click', e => {
+      e.preventDefault();
+      this.isPaused = false;
+    });
+
+    $('.seed').on('click', e => {
+      e.preventDefault();
+      this.board.addRandomSeeds();
+    });
+
+    $('.glider').on('click', () => {
+      this.$li.addClass("add-objects");
+      this.$li.on('click', e => {
+        this.$li.removeClass("add-objects");
+        this.board.addSquares(e.target.dataset.pos, Util.glider);
+      });
+    });
+
+    $('.small-exploder').on('click', () => {
+      this.$li.addClass("add-objects");
+      this.$li.on('click', e => {
+        this.$li.removeClass("add-objects");
+        this.board.addSquares(e.target.dataset.pos, Util.smallExploder);
+      });
+    });
+
+    $('.exploder').on('click', () => {
+      this.$li.addClass("add-objects");
+      this.$li.on('click', e => {
+        this.$li.removeClass("add-objects");
+        this.board.addSquares(e.target.dataset.pos, Util.exploder);
+      });
+    });
+
+    $('.ten-cell-row').on('click', () => {
+      this.$li.addClass("add-objects");
+      this.$li.on('click', e => {
+        this.$li.removeClass("add-objects");
+        this.board.addSquares(e.target.dataset.pos, Util.tenCellRow);
+      });
+    });
+
+    $('.spaceship').on('click', () => {
+      this.$li.addClass("add-objects");
+      this.$li.on('click', e => {
+        this.$li.removeClass("add-objects");
+        this.board.addSquares(e.target.dataset.pos, Util.spaceship);
+      });
+    });
+
+    $('.tumbler').on('click', () => {
+      this.$li.addClass("add-objects");
+      this.$li.on('click', e => {
+        this.$li.removeClass("add-objects");
+        this.board.addSquares(e.target.dataset.pos, Util.tumbler);
+      });
+    });
   }
 }
 

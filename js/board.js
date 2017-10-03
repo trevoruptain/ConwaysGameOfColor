@@ -111,6 +111,29 @@ class Board {
     const num = Math.floor(Math.random() * colors.length);
     return colors[num];
   }
+
+  addRandomSeeds() {
+    const colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
+
+    for (let i = 0; i < this.height; i++) {
+      for (let j = 0; j < this.width; j++) {
+        if (Math.floor(Math.random() * 20) === 1) {
+          const num = Math.floor(Math.random() * colors.length);
+          this.grid[i][j] = [true, colors[num]];
+        }
+      }
+    }
+  }
+
+  addSquares(pos, shape) {
+    const selectedCoords = pos.split(',').map(el => parseInt(el));
+    shape.forEach(coord => {
+      const newY = coord[0] + selectedCoords[0];
+      const newX = coord[1] + selectedCoords[1];
+      const color = coord[2];
+      this.grid[newY][newX] = [true, color];
+    });
+  }
 }
 
 export default Board;
