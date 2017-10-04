@@ -4,16 +4,15 @@ import Board from './board';
 class GameView {
   constructor($el) {
     this.$el = $el;
-    this.positions = Util.madness;
+    this.positions = Util.blank;
     this.board = new Board(this.positions);
 
     this.setupBoard = this.setupBoard.bind(this);
     this.runGame = this.runGame.bind(this);
-    this.getColor = this.getColor.bind(this);
 
     this.isPaused = false;
 
-    this.setupBoard();
+    this.setupBoard(this.positions);
     this.addEventListeners();
 
     this.$el.on("click", e => {
@@ -35,7 +34,7 @@ class GameView {
           }
         }
         if (isAlive) {
-          const color = this.getColor(i, j);
+          const color = this.chooseRandomColor();
           html += `<li class="live radiate ${color}" data-pos="${[i, j]}"></li>`;
         } else {
           html += `<li data-pos="${[i, j]}"></li>`;
@@ -48,19 +47,14 @@ class GameView {
     this.$li = this.$el.find("li");
   }
 
-  getColor(x, y) {
-    let color = "";
-
-    this.positions.forEach(position => {
-      if (position[0] == x && position[1] == y) {
-        color = position[2];
-      }
-    });
-
-    return color;
+  chooseRandomColor() {
+    const colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
+    const randomNum = Math.floor(Math.random() * 7);
+    return colors[randomNum];
   }
 
   runGame() {
+    this.addEventListeners();
     this.$el.removeClass("clickable");
     this.$li.filter(".radiate").removeClass();
     $('button').addClass("visible");
@@ -75,7 +69,7 @@ class GameView {
           this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
         });
      }
-   }, 50);
+   }, 100);
   }
 
   addEventListeners() {
@@ -95,50 +89,51 @@ class GameView {
     });
 
     $('.glider').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.glider);
+        $('.conway').off();
       });
     });
 
     $('.small-exploder').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.smallExploder);
+        $('.conway').off();
       });
     });
 
     $('.exploder').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.exploder);
+        $('.conway').off();
       });
     });
 
     $('.ten-cell-row').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.tenCellRow);
+        $('.conway').off();
       });
     });
 
     $('.spaceship').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.spaceship);
+        $('.conway').off();
       });
     });
 
     $('.tumbler').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.tumbler);
+        $('.conway').off();
+      });
+    });
+
+    $('.gospel-glider-gun').on('click', () => {
+      $('.conway').on('click', e => {
+        this.board.addSquares(e.target.dataset.pos, Util.gospelGliderGun);
+        $('.conway').off();
       });
     });
   }

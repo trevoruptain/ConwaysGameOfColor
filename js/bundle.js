@@ -91,16 +91,15 @@ $( () => {
 class GameView {
   constructor($el) {
     this.$el = $el;
-    this.positions = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].madness;
+    this.positions = __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].blank;
     this.board = new __WEBPACK_IMPORTED_MODULE_1__board__["a" /* default */](this.positions);
 
     this.setupBoard = this.setupBoard.bind(this);
     this.runGame = this.runGame.bind(this);
-    this.getColor = this.getColor.bind(this);
 
     this.isPaused = false;
 
-    this.setupBoard();
+    this.setupBoard(this.positions);
     this.addEventListeners();
 
     this.$el.on("click", e => {
@@ -122,7 +121,7 @@ class GameView {
           }
         }
         if (isAlive) {
-          const color = this.getColor(i, j);
+          const color = this.chooseRandomColor();
           html += `<li class="live radiate ${color}" data-pos="${[i, j]}"></li>`;
         } else {
           html += `<li data-pos="${[i, j]}"></li>`;
@@ -135,19 +134,14 @@ class GameView {
     this.$li = this.$el.find("li");
   }
 
-  getColor(x, y) {
-    let color = "";
-
-    this.positions.forEach(position => {
-      if (position[0] == x && position[1] == y) {
-        color = position[2];
-      }
-    });
-
-    return color;
+  chooseRandomColor() {
+    const colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
+    const randomNum = Math.floor(Math.random() * 7);
+    return colors[randomNum];
   }
 
   runGame() {
+    this.addEventListeners();
     this.$el.removeClass("clickable");
     this.$li.filter(".radiate").removeClass();
     $('button').addClass("visible");
@@ -162,7 +156,7 @@ class GameView {
           this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
         });
      }
-   }, 50);
+   }, 100);
   }
 
   addEventListeners() {
@@ -182,50 +176,51 @@ class GameView {
     });
 
     $('.glider').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].glider);
+        $('.conway').off();
       });
     });
 
     $('.small-exploder').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].smallExploder);
+        $('.conway').off();
       });
     });
 
     $('.exploder').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].exploder);
+        $('.conway').off();
       });
     });
 
     $('.ten-cell-row').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].tenCellRow);
+        $('.conway').off();
       });
     });
 
     $('.spaceship').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].spaceship);
+        $('.conway').off();
       });
     });
 
     $('.tumbler').on('click', () => {
-      this.$li.addClass("add-objects");
-      this.$li.on('click', e => {
-        this.$li.removeClass("add-objects");
+      $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].tumbler);
+        $('.conway').off();
+      });
+    });
+
+    $('.gospel-glider-gun').on('click', () => {
+      $('.conway').on('click', e => {
+        this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].gospelGliderGun);
+        $('.conway').off();
       });
     });
   }
@@ -240,113 +235,153 @@ class GameView {
 
 "use strict";
 const Util = {
+  blank: [],
+
   glider: [
-    [4, 3, 'green'],
-    [3, 4, 'yellow'],
-    [2, 2, 'purple'],
-    [2, 3, 'orange'],
-    [2, 4, 'pink']
+    [1, 0],
+    [0, 1],
+    [-1, -1],
+    [-1, 0],
+    [-1, 1]
   ],
 
   smallExploder: [
-    [1, 0, 'purple'],
-    [0, 0, 'yellow'],
-    [0, -1, 'green'],
-    [0, 1, 'red'],
-    [-1, -1, 'orange'],
-    [-1, 1, 'blue'],
-    [-2, 0, 'orange']
+    [1, 0],
+    [0, 0],
+    [0, -1],
+    [0, 1],
+    [-1, -1],
+    [-1, 1],
+    [-2, 0]
   ],
 
   exploder: [
-    [2, 0, "green"],
-    [2, -2, "red"],
-    [2, 2, "blue"],
-    [1, -2, "purple"],
-    [1, 2, "blue"],
-    [0, -2, "pink"],
-    [0, 2, "orange"],
-    [-1, -2, "green"],
-    [-1, 2, "yellow"],
-    [-2, -2, "red"],
-    [-2, 2, "pink"],
-    [-2, 0, "blue"]
+    [2, 0],
+    [2, -2],
+    [2, 2],
+    [1, -2],
+    [1, 2],
+    [0, -2],
+    [0, 2],
+    [-1, -2],
+    [-1, 2],
+    [-2, -2],
+    [-2, 2],
+    [-2, 0]
   ],
 
   tenCellRow: [
-    [0, -4, 'green'],
-    [0, -3, 'green'],
-    [0, -2, 'green'],
-    [0, -1, 'green'],
-    [0, 0, 'green'],
-    [0, 1, 'green'],
-    [0, 2, 'green'],
-    [0, 3, 'green'],
-    [0, 4, 'green'],
-    [0, 5, 'green'],
+    [0, -4],
+    [0, -3],
+    [0, -2],
+    [0, -1],
+    [0, 0],
+    [0, 1],
+    [0, 2],
+    [0, 3],
+    [0, 4],
+    [0, 5],
   ],
 
   spaceship: [
-    [1, -2, 'red'],
-    [2, -1, 'green'],
-    [2, 0, 'yellow'],
-    [2, 1, 'purple'],
-    [2, 2, 'pink'],
-    [1, 2, 'yellow'],
-    [0, 2, 'blue'],
-    [-1, 1, 'green'],
-    [-1, -2, 'blue']
+    [1, -2],
+    [2, -1],
+    [2, 0],
+    [2, 1],
+    [2, 2],
+    [1, 2],
+    [0, 2],
+    [-1, 1],
+    [-1, -2]
   ],
 
   tumbler: [
-    [2, -2, 'orange'],
-    [2, 1, 'orange'],
-    [1, -2, 'orange'],
-    [1, -1, 'orange'],
-    [0, -1, 'orange'],
-    [-1, -1, 'orange'],
-    [-2, -1, 'orange'],
-    [-3, -2, 'orange'],
-    [-3, -3, 'orange'],
-    [-2, -3, 'orange'],
-    [-1, -3, 'orange'],
-    [2, 1, 'orange'],
-    [2, 2, 'orange'],
-    [1, 1, 'orange'],
-    [1, 2, 'orange'],
-    [0, 1, 'orange'],
-    [-1, 1, 'orange'],
-    [-2, 1, 'orange'],
-    [-3, 2, 'orange'],
-    [-3, 3, 'orange'],
-    [-2, 3, 'orange'],
-    [-1, 3, 'orange']
+    [2, -2],
+    [2, -1],
+    [1, -2],
+    [1, -1],
+    [0, -1],
+    [-1, -1],
+    [-2, -1],
+    [-3, -2],
+    [-3, -3],
+    [-2, -3],
+    [-1, -3],
+    [2, 1],
+    [2, 2],
+    [1, 1],
+    [1, 2],
+    [0, 1],
+    [-1, 1],
+    [-2, 1],
+    [-3, 2],
+    [-3, 3],
+    [-2, 3],
+    [-1, 3]
   ],
 
   madness: [
-    [25, 137, 'red'],
-    [25, 138, 'green'],
-    [23, 138, 'blue'],
-    [24, 140, 'yellow'],
-    [25, 141, 'orange'],
-    [25, 142, 'purple'],
-    [25, 143, 'pink'],
+    [25, 137],
+    [25, 138],
+    [23, 138],
+    [24, 140],
+    [25, 141],
+    [25, 142],
+    [25, 143],
 
-    [55, 37, 'pink'],
-    [55, 38, 'yellow'],
-    [53, 38, 'green'],
-    [54, 40, 'pink'],
-    [55, 41, 'blue'],
-    [55, 42, 'orange'],
-    [55, 43, 'purple'],
+    [55, 37],
+    [55, 38],
+    [53, 38],
+    [54, 40],
+    [55, 41],
+    [55, 42],
+    [55, 43],
 
-    [65, 107, 'pink'],
-    [65, 108, 'yellow'],
-    [63, 108, 'purple'],
-    [64, 110, 'blue'],
-    [65, 111, 'orange'],
-    [65, 112, 'green'],
-    [65, 113, 'red']
+    [65, 107],
+    [65, 108],
+    [63, 108],
+    [64, 110],
+    [65, 111],
+    [65, 112],
+    [65, 113]
+  ],
+
+  gospelGliderGun: [
+    [-3, -18],
+    [-3, -17],
+    [-2, -18],
+    [-2, -17],
+    [-3, -9],
+    [-3, -8],
+    [-2, -8],
+    [-2, -10],
+    [-1, -10],
+    [-1, -9],
+    [1, -2],
+    [0, -2],
+    [-1, -2],
+    [-1, -1],
+    [0, 0],
+    [-3, 4],
+    [-3, 5],
+    [-4, 4],
+    [-4, 6],
+    [-5, 6],
+    [-5, 5],
+    [7, 6],
+    [7, 7],
+    [7, 8],
+    [8, 6],
+    [9, 7],
+    [-4, 16],
+    [-4, 17],
+    [-5, 16],
+    [-5, 17],
+    [2, 17],
+    [2, 18],
+    [3, 17],
+    [3, 19],
+    [4, 17]
   ]
 };
 
@@ -370,6 +405,8 @@ class Board {
       this.grid[i].fill([false]);
     }
 
+    this.colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
+
     this.populateBoard = this.populateBoard.bind(this);
     this.nextGeneration = this.nextGeneration.bind(this);
     this.greetNeighbors = this.greetNeighbors.bind(this);
@@ -382,7 +419,7 @@ class Board {
       const y = position[0];
       const x = position[1];
 
-      this.grid[y][x] = [true, position[2]];
+      this.grid[y][x] = [true, this.chooseRandomColor()];
     });
   }
 
@@ -466,20 +503,26 @@ class Board {
   }
 
   chooseColor(colors) {
-    const rand = Math.floor(Math.random() * 500);
+    let randomColorChance = 0.001;
+    const num = Math.floor((Math.random() + randomColorChance) * colors.length);
+    if (num === colors.length){
+      return this.chooseRandomColor();
+    } else {
+      return colors[num];
+    }
+  }
 
-    const num = Math.floor(Math.random() * colors.length);
-    return colors[num];
+  chooseRandomColor() {
+    const randomNum = Math.floor(Math.random() * 7);
+    return this.colors[randomNum];
   }
 
   addRandomSeeds() {
-    const colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
-
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
-        if (Math.floor(Math.random() * 20) === 1) {
-          const num = Math.floor(Math.random() * colors.length);
-          this.grid[i][j] = [true, colors[num]];
+        if (Math.floor(Math.random() * 40) === 1) {
+          const num = Math.floor(Math.random() * this.colors.length);
+          this.grid[i][j] = [true, this.colors[num]];
         }
       }
     }
@@ -490,7 +533,7 @@ class Board {
     shape.forEach(coord => {
       const newY = coord[0] + selectedCoords[0];
       const newX = coord[1] + selectedCoords[1];
-      const color = coord[2];
+      const color = this.chooseRandomColor();
       this.grid[newY][newX] = [true, color];
     });
   }

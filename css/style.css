@@ -56,21 +56,33 @@ li {
   to { -webkit-box-shadow: 0 0 0 #FFF; }
 }
 
-.play, .pause {
-  background: transparent;
+#left-buttons {
   position: absolute;
   top: 37vw;
   left: 1.5vw;
+  width: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#right-buttons {
+  position: absolute;
+  top: 37vw;
+  right: 1.5vw;
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.play, .pause, .seed, .glider, .small-exploder, .exploder,
+.ten-cell-row, .spaceship, .tumbler, .gospel-glider-gun {
+  background: transparent;
   border: none;
   opacity: 0;
   margin: 0;
   padding: 0;
   cursor: pointer;
   outline: none;
-}
-
-.pause {
-  left: 4vw;;
 }
 
 .visible {

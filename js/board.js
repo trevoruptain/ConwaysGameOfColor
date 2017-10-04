@@ -10,6 +10,8 @@ class Board {
       this.grid[i].fill([false]);
     }
 
+    this.colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
+
     this.populateBoard = this.populateBoard.bind(this);
     this.nextGeneration = this.nextGeneration.bind(this);
     this.greetNeighbors = this.greetNeighbors.bind(this);
@@ -22,7 +24,7 @@ class Board {
       const y = position[0];
       const x = position[1];
 
-      this.grid[y][x] = [true, position[2]];
+      this.grid[y][x] = [true, this.chooseRandomColor()];
     });
   }
 
@@ -106,20 +108,26 @@ class Board {
   }
 
   chooseColor(colors) {
-    const rand = Math.floor(Math.random() * 500);
+    let randomColorChance = 0.001;
+    const num = Math.floor((Math.random() + randomColorChance) * colors.length);
+    if (num === colors.length){
+      return this.chooseRandomColor();
+    } else {
+      return colors[num];
+    }
+  }
 
-    const num = Math.floor(Math.random() * colors.length);
-    return colors[num];
+  chooseRandomColor() {
+    const randomNum = Math.floor(Math.random() * 7);
+    return this.colors[randomNum];
   }
 
   addRandomSeeds() {
-    const colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink"];
-
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
-        if (Math.floor(Math.random() * 20) === 1) {
-          const num = Math.floor(Math.random() * colors.length);
-          this.grid[i][j] = [true, colors[num]];
+        if (Math.floor(Math.random() * 40) === 1) {
+          const num = Math.floor(Math.random() * this.colors.length);
+          this.grid[i][j] = [true, this.colors[num]];
         }
       }
     }
@@ -130,7 +138,7 @@ class Board {
     shape.forEach(coord => {
       const newY = coord[0] + selectedCoords[0];
       const newX = coord[1] + selectedCoords[1];
-      const color = coord[2];
+      const color = this.chooseRandomColor();
       this.grid[newY][newX] = [true, color];
     });
   }
