@@ -38,7 +38,7 @@ body {
 }
 
 .live {
-  border-radius: 2px;
+  border-radius: 5px;
 }
 
 .clickable {
@@ -61,7 +61,7 @@ body {
   position: absolute;
   top: 37vw;
   left: 1.5vw;
-  width: 60px;
+  width: 150px;
   display: flex;
   justify-content: space-between;
 }
@@ -70,7 +70,7 @@ body {
   position: absolute;
   top: 37vw;
   right: 1.5vw;
-  width: 200px;
+  width: 450px;
   display: flex;
   justify-content: space-between;
 }
@@ -121,8 +121,8 @@ body {
 }
 
 button img {
-  width: 16px;
-  height: 16px;
+  width: 40px;
+  height: 40px;
 }
 
 .add-objects:hover {
@@ -191,12 +191,12 @@ button img {
   margin-right: auto;
   left: 0;
   right: 0;
-  top: 50px;
+  top: 100px;
   opacity: 0;
-  width: 400px;
+  width: 600px;
   height: auto;
   padding: 30px;
-  font-size: 8px;
+  font-size: 10%;
   background-color: rgba(0, 0, 0, 0.95);
   color: #F5F5F5;
   font-family: Roboto;
