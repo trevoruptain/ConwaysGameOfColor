@@ -10,8 +10,8 @@ body {
   background-color: #cecece;
   background:
     linear-gradient(
-        rgba(0, 0, 0, 0.5),
-        rgba(0, 0, 0, 0.5)
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 1)
       ),
      url("../images/background_1.jpg");
   background-size: cover;
@@ -126,6 +126,33 @@ button img {
 
 .add-objects:hover {
   background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/*Tooltips*/
+
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #F5F5F5;
+    color: #050505;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 3px;
+    position: absolute;
+    top: -35px;
+    right: 40px;
+    z-index: 3;
+    opacity: 0;
+    transition: all 1s;
+}
+
+.seed:hover .tooltiptext, .glider:hover .tooltiptext,
+.small-exploder:hover .tooltiptext, .exploder:hover .tooltiptext,
+.ten-cell-row:hover .tooltiptext, .spaceship:hover .tooltiptext,
+.tumbler:hover .tooltiptext, .gospel-glider-gun:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+    transition: all 1s;
 }
 
 /*Colors*/
