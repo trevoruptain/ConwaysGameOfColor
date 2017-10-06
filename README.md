@@ -1,6 +1,6 @@
 # Conways Game of Color
 
-[View Demo]('http://trevoruptain.com')
+[View Demo](http://trevoruptain.com)
 
 This app is a simple, interactive browser version of Conway's Game of Life. It seeds each 'live' square with a random color upon initialization, with squares in successive states pulling a color randomly from their neighbors. It allows users to interact with the game during the run by dropping in preconfigured shapes, such as a 'spaceship' or 'gospel glider gun.'
 
