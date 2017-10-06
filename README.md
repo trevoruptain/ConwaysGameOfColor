@@ -19,7 +19,7 @@ The primary feature of the app is its unique take on Conway's Game of Life, wher
 
 Unlike the typical Conway's Game, which is played on a grid of infinite height and width, the Game of Color wraps around the screen such that a traveling shape exiting the right of the screen will reappear on the left. Coupled with the game's unique color properties, the result is a chaotic explosion of movement and color as the user interacts with the game:
 
-![Screenshot](https://image.ibb.co/dbwXfb/game_of_color.png "Screenshot")
+![Screenshot](images/game-of-color.png "Screenshot")
 
 At any point during the run, a user can drop preconfigured shapes into the game using the icons at the bottom right of the screen. The can also pause or play the game using the controls at the left.
 
