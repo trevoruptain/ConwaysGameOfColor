@@ -85,6 +85,18 @@ class GameView {
       this.isPaused = false;
     });
 
+    $('.info').on('click', e => {
+      e.preventDefault();
+      this.isPaused = true;
+      $('.modal-text').addClass('show-modal');
+      $('.conway, .modal-text').on('click', event => {
+        event.preventDefault();
+        $('.modal-text').removeClass('show-modal');
+        this.isPaused = false;
+        $('.conway, .modal-text').off();
+      });
+    });
+
     $('.seed').on('click', e => {
       e.preventDefault();
       if (this.canSeed) {
