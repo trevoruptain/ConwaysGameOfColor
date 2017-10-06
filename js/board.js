@@ -125,7 +125,7 @@ class Board {
   addRandomSeeds() {
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
-        if (Math.floor(Math.random() * 40) === 1) {
+        if (Math.floor(Math.random() * 20) === 1) {
           const num = Math.floor(Math.random() * this.colors.length);
           this.grid[i][j] = [true, this.colors[num]];
         }
@@ -141,6 +141,14 @@ class Board {
       const color = this.chooseRandomColor();
       this.grid[newY][newX] = [true, color];
     });
+  }
+
+  reset() {
+    for (let i = 0; i < this.height; i++) {
+      for (let j = 0; j < this.width; j++) {
+        this.grid[i][j] = [false];
+      }
+    }
   }
 }
 

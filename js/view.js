@@ -4,13 +4,15 @@ import Board from './board';
 class GameView {
   constructor($el) {
     this.$el = $el;
-    this.positions = Util.blank;
+    this.positions = Util.clickHere;
     this.board = new Board(this.positions);
 
     this.setupBoard = this.setupBoard.bind(this);
     this.runGame = this.runGame.bind(this);
+    this.addEventListeners = this.addEventListeners.bind(this);
 
     this.isPaused = false;
+    this.canSeed = true;
 
     this.setupBoard(this.positions);
     this.addEventListeners();
@@ -85,55 +87,75 @@ class GameView {
 
     $('.seed').on('click', e => {
       e.preventDefault();
-      this.board.addRandomSeeds();
+      if (this.canSeed) {
+        this.canSeed = false;
+        this.board.addRandomSeeds();
+        setTimeout(() => {
+          this.canSeed = true;
+        }, 1000);
+      }
     });
 
     $('.glider').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.glider);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
     $('.small-exploder').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.smallExploder);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
     $('.exploder').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.exploder);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
     $('.ten-cell-row').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.tenCellRow);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
     $('.spaceship').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.spaceship);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
     $('.tumbler').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.tumbler);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
     $('.gospel-glider-gun').on('click', () => {
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
         this.board.addSquares(e.target.dataset.pos, Util.gospelGliderGun);
         $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
   }

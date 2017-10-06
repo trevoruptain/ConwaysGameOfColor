@@ -4,14 +4,14 @@ body {
   text-align: center;
 }
 
-.conway {
+.conway, .conway-draw {
   width: 100vw;
   margin: 0;
   background-color: #cecece;
   background:
     linear-gradient(
-        rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0.25)
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
       ),
      url("../images/background_1.jpg");
   background-size: cover;
@@ -74,6 +74,30 @@ li {
   justify-content: space-between;
 }
 
+#draw-button {
+  position: absolute;
+  top: 37vw;
+  right: 1.5vw;
+  width: 20px;
+}
+
+.draw {
+  background: transparent;
+  border: none;
+  opacity: 1;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.positions {
+  background-color: #cecece;
+  width: 200px;
+  height: 100px;
+  margin-top: 20px;
+}
+
 .play, .pause, .seed, .glider, .small-exploder, .exploder,
 .ten-cell-row, .spaceship, .tumbler, .gospel-glider-gun {
   background: transparent;
@@ -86,9 +110,13 @@ li {
 }
 
 .visible {
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: 1;
   transition: all 1s;
+}
+
+.visible:hover {
+  opacity: 1;
 }
 
 button img {
