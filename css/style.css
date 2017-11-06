@@ -139,10 +139,6 @@ body {
   justify-content: space-between;
 }
 
-.logo-holder {
-  height:100px;
-}
-
 .button-holder {
   height:160px;
   display:flex;
