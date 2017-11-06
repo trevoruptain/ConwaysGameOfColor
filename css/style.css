@@ -2,11 +2,25 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  width:100vw;
+  height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wrapper {
+  width:1000px;
+  height:560px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #F5F5F5;
+  background-size: cover;
+  background-position: center center;
 }
 
 .conway, .conway-draw {
-  width: 100vw;
-  margin: 0;
+  width: 800px;
   background-color: #cecece;
   background:
     linear-gradient(
@@ -32,8 +46,8 @@ body {
 
 .conway li {
   float: left;
-  width: 0.5vw;
-  height: 0.5vw;
+  width: 8px;
+  height: 8px;
   list-style: none;
 }
 
@@ -58,20 +72,18 @@ body {
 }
 
 #left-buttons {
-  position: absolute;
-  top: 37vw;
-  left: 1.5vw;
-  width: 150px;
+  background-color: rgb(70, 70, 70);
+  width: 100px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
 #right-buttons {
-  position: absolute;
-  top: 37vw;
-  right: 1.5vw;
-  width: 450px;
+  background-color: rgb(70, 70, 70);
+  width:100px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 

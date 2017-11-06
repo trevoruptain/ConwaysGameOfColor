@@ -71,7 +71,7 @@ class GameView {
           this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
         });
      }
-   }, 100);
+   }, 120);
   }
 
   addEventListeners() {

@@ -1,7 +1,7 @@
 class Board {
   constructor(positions) {
-    this.width = 200;
-    this.height = 80;
+    this.width = 100;
+    this.height = 70;
 
     this.grid = new Array(this.height);
 

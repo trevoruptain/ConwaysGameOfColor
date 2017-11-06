@@ -9,60 +9,67 @@
     <script type="text/javascript" src="js/bundle.js"></script>
   </head>
   <body>
-    <div class="conway clickable"></div>
-    <div id="left-buttons">
-      <button class="play"><img src="./images/play.png"></button>
-      <button class="pause"><img src="./images/pause.png"></button>
-      <button class="info"><img src="./images/info.png"></button>
-    </div>
+    <div id="wrapper">
+      <div id="left-buttons">
+        <button class="play">
+          <img src="./images/play.png">
+        </button>
+        <button class="pause">
+          <img src="./images/pause.png">
+        </button>
+        <button class="info">
+          <img src="./images/info.png">
+        </button>
+      </div>
+      <div class="conway clickable"></div>
+      <div id="right-buttons">
+        <button class="seed">
+          <span class="tooltiptext">Seed Random Squares</span>
+          <img src="./images/seed.png">
+        </button>
+        <button class="glider">
+          <span class="tooltiptext">Glider</span>
+          <img src="./images/glider.png">
+        </button>
+        <button class="small-exploder">
+          <span class="tooltiptext">Small Exploder</span>
+          <img src="./images/small-exploder.png">
+        </button>
+        <button class="exploder">
+          <span class="tooltiptext">Large Exploder</span>
+          <img src="./images/exploder.png">
+        </button>
+        <button class="ten-cell-row">
+          <span class="tooltiptext">Ten Cell Row</span>
+          <img src="./images/ten-cell-row.png">
+        </button>
+        <button class="spaceship">
+          <span class="tooltiptext">Spaceship</span>
+          <img src="./images/spaceship.png">
+        </button>
+        <button class="tumbler">
+          <span class="tooltiptext">Tumbler</span>
+          <img src="./images/tumbler.png">
+        </button>
+        <button class="gospel-glider-gun">
+          <span class="tooltiptext">Gospel Glider Gun</span>
+          <img src="./images/gospel-glider-gun.png">
+        </button>
+      </div>
+      <div class="modal-text rainbow_border">
+        <h1>Conway's Game of Color</h1>
 
-    <div id="right-buttons">
-      <button class="seed">
-        <span class="tooltiptext">Seed Random Squares</span>
-        <img src="./images/seed.png">
-      </button>
-      <button class="glider">
-        <span class="tooltiptext">Glider</span>
-        <img src="./images/glider.png">
-      </button>
-      <button class="small-exploder">
-        <span class="tooltiptext">Small Exploder</span>
-        <img src="./images/small-exploder.png">
-      </button>
-      <button class="exploder">
-        <span class="tooltiptext">Large Exploder</span>
-        <img src="./images/exploder.png">
-      </button>
-      <button class="ten-cell-row">
-        <span class="tooltiptext">Ten Cell Row</span>
-        <img src="./images/ten-cell-row.png">
-      </button>
-      <button class="spaceship">
-        <span class="tooltiptext">Spaceship</span>
-        <img src="./images/spaceship.png">
-      </button>
-      <button class="tumbler">
-        <span class="tooltiptext">Tumbler</span>
-        <img src="./images/tumbler.png">
-      </button>
-      <button class="gospel-glider-gun">
-        <span class="tooltiptext">Gospel Glider Gun</span>
-        <img src="./images/gospel-glider-gun.png">
-      </button>
-    </div>
-    <div class="modal-text rainbow_border">
-      <h1>Conway's Game of Color</h1>
+        <p>Conway's Game of Life was devised by mathematician John Conway. It's a cellular automaton, which means that the evolution of the game is determined by its initial state. The game consists of a grid of cells, where each cell is either 'alive' or 'dead.' Successive states are determined by the previous state, with each cell on the grid governed by four simple rules:</p>
 
-      <p>Conway's Game of Life was devised by mathematician John Conway. It's a cellular automaton, which means that the evolution of the game is determined by its initial state. The game consists of a grid of cells, where each cell is either 'alive' or 'dead.' Successive states are determined by the previous state, with each cell on the grid governed by four simple rules:</p>
+        <ul>
+          <li>Any live cell with fewer than two live neighbours dies, as if caused by underpopulation</li>
+          <li>Any live cell with two or three live neighbors lives on to the next generation</li>
+          <li>Any live cell with more than three live neighbors dies, as if by overpopulation</li>
+          <li>Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction</li>
+        </ul>
 
-      <ul>
-        <li>Any live cell with fewer than two live neighbours dies, as if caused by underpopulation</li>
-        <li>Any live cell with two or three live neighbors lives on to the next generation</li>
-        <li>Any live cell with more than three live neighbors dies, as if by overpopulation</li>
-        <li>Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction</li>
-      </ul>
-
-      <p>This is an interactive version of Conway's Game where a cell's color is determined by its neighbors. The Game of Color is intended to be used in the hero area of a website, with a drawing utility for developers included within the <a href="https://github.com/trevoruptain/ConwaysGameOfColor/" target="blank">Github repo</a>. Since the grid itself is invisible, the game can overlay a background image. You can interact with the game by inserting predetermined shapes into the grid at any point (check out the buttons at the bottom right). You can also pause or continue the run with the buttons on the left.</p>
+        <p>This is an interactive version of Conway's Game where a cell's color is determined by its neighbors. The Game of Color is intended to be used in the hero area of a website, with a drawing utility for developers included within the <a href="https://github.com/trevoruptain/ConwaysGameOfColor/" target="blank">Github repo</a>. Since the grid itself is invisible, the game can overlay a background image. You can interact with the game by inserting predetermined shapes into the grid at any point (check out the buttons at the bottom right). You can also pause or continue the run with the buttons on the left.</p>
+      </div>
     </div>
   </body>
 </html>
