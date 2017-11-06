@@ -8,6 +8,7 @@ class GameView {
     this.board = new Board(this.positions);
 
     this.setupBoard = this.setupBoard.bind(this);
+    this.startGame = this.startGame.bind(this);
     this.runGame = this.runGame.bind(this);
     this.addEventListeners = this.addEventListeners.bind(this);
 
@@ -19,7 +20,7 @@ class GameView {
 
     this.$el.on("click", e => {
       e.preventDefault();
-      this.runGame();
+      this.startGame();
     });
   }
 
@@ -55,11 +56,14 @@ class GameView {
     return colors[randomNum];
   }
 
-  runGame() {
+  startGame() {
     this.addEventListeners();
     this.$el.removeClass("clickable");
     this.$li.filter(".radiate").removeClass();
+    this.runGame();
+  }
 
+  runGame() {
     setInterval(() => {
       if (!this.isPaused) {
         const livePositions = this.board.nextGeneration();
@@ -69,8 +73,8 @@ class GameView {
           const flatCoord = (position[0][0] * this.board.width) + position[0][1];
           this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
         });
-     }
-   }, 135);
+      }
+    }, 150);
   }
 
   addEventListeners() {
@@ -114,11 +118,11 @@ class GameView {
     });
 
     $('.glider').on('click', () => {
-      // $('html,body').css('cursor','crosshair');
+      $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
-        // this.board.addSquares(e.target.dataset.pos, Util.glider);
-        // $('.conway').off();
-        // $('html,body').css('cursor','default');
+        this.board.addSquares(e.target.dataset.pos, Util.glider);
+        $('.conway').off();
+        $('html,body').css('cursor','default');
       });
     });
 
