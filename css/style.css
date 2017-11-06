@@ -140,7 +140,7 @@ body {
 }
 
 .button-holder {
-  height:160px;
+  height:210px;
   display:flex;
   justify-content: space-between;
   flex-direction: column;
@@ -157,6 +157,16 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+#left-buttons img, #right-buttons img {
+  width:35px;
+  height:auto;
+}
+
+.logo {
+  width: 45px;
+  height:auto;
 }
 
 #draw-button {
@@ -183,7 +193,7 @@ body {
   margin-top: 20px;
 }
 
-.play, .pause, .info, .seed, .glider, .small-exploder, .exploder,
+.play, .pause, .info, .clear, .seed, .glider, .small-exploder, .exploder,
 .ten-cell-row, .spaceship, .tumbler, .gospel-glider-gun {
   background: transparent;
   border: none;
@@ -214,9 +224,8 @@ button img {
     padding: 5px 0;
     border-radius: 3px;
     position: absolute;
-    top: -35px;
-    right: 40px;
-    z-index: 3;
+    left: calc(100vw / 2 + 510px);
+    z-index: 99999;
     opacity: 0;
     transition: all 1s;
 }

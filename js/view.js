@@ -84,6 +84,12 @@ class GameView {
       this.isPaused = false;
     });
 
+    $('.clear').on('click', e => {
+      e.preventDefault();
+      console.log("hey");
+      this.board.reset();
+    });
+
     $('.info').on('click', e => {
       e.preventDefault();
       this.isPaused = true;
@@ -108,11 +114,11 @@ class GameView {
     });
 
     $('.glider').on('click', () => {
-      $('html,body').css('cursor','crosshair');
+      // $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
-        this.board.addSquares(e.target.dataset.pos, Util.glider);
-        $('.conway').off();
-        $('html,body').css('cursor','default');
+        // this.board.addSquares(e.target.dataset.pos, Util.glider);
+        // $('.conway').off();
+        // $('html,body').css('cursor','default');
       });
     });
 

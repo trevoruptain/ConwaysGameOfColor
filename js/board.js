@@ -135,6 +135,7 @@ class Board {
 
   addSquares(pos, shape) {
     const selectedCoords = pos.split(',').map(el => parseInt(el));
+    const newCoords = [];
     shape.forEach(coord => {
       const newY = coord[0] + selectedCoords[0];
       const newX = coord[1] + selectedCoords[1];

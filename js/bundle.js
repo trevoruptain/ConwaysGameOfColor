@@ -171,6 +171,12 @@ class GameView {
       this.isPaused = false;
     });
 
+    $('.clear').on('click', e => {
+      e.preventDefault();
+      console.log("hey");
+      this.board.reset();
+    });
+
     $('.info').on('click', e => {
       e.preventDefault();
       this.isPaused = true;
@@ -195,11 +201,11 @@ class GameView {
     });
 
     $('.glider').on('click', () => {
-      $('html,body').css('cursor','crosshair');
+      // $('html,body').css('cursor','crosshair');
       $('.conway').on('click', e => {
-        this.board.addSquares(e.target.dataset.pos, __WEBPACK_IMPORTED_MODULE_0__util__["a" /* default */].glider);
-        $('.conway').off();
-        $('html,body').css('cursor','default');
+        // this.board.addSquares(e.target.dataset.pos, Util.glider);
+        // $('.conway').off();
+        // $('html,body').css('cursor','default');
       });
     });
 
@@ -859,6 +865,7 @@ class Board {
 
   addSquares(pos, shape) {
     const selectedCoords = pos.split(',').map(el => parseInt(el));
+    const newCoords = [];
     shape.forEach(coord => {
       const newY = coord[0] + selectedCoords[0];
       const newX = coord[1] + selectedCoords[1];
