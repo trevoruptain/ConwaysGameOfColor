@@ -146,7 +146,6 @@ class GameView {
     this.addEventListeners();
     this.$el.removeClass("clickable");
     this.$li.filter(".radiate").removeClass();
-    $('button').addClass("visible");
 
     setInterval(() => {
       if (!this.isPaused) {
@@ -158,7 +157,7 @@ class GameView {
           this.$li.eq(flatCoord).addClass(`live ${position[1]}`);
         });
      }
-   }, 120);
+   }, 135);
   }
 
   addEventListeners() {
